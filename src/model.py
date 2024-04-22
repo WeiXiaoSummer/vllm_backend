@@ -110,7 +110,10 @@ class TritonPythonModel:
         assert (
             self.using_decoupled
         ), "vLLM Triton backend must be configured to use decoupled model transaction policy"
-
+        
+        device_id = args["model_instance_device_id"] # 0 / 1 / 2 / 3 
+        os.environ["CUDA_VISIBLE_DEVICES"] = device_id
+        
         engine_args_filepath = os.path.join(
             pb_utils.get_model_dir(), _VLLM_ENGINE_ARGS_FILENAME
         )
